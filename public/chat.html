@@ -1,0 +1,33 @@
+<button class="click-button" style="background-color: red;height: 20px;width: 100px; color:white;">
+    Click
+</button>
+<button class="click-button2" style="background-color: red;height: 20px;width: 100px; color:white;">
+    send hi
+</button>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    let socket = io("http://localhost:5000/doctor", { autoConnect: false });
+    document.querySelector(".click-button").addEventListener("click", () => {
+        socket.auth = { userName: "Faruk", type: "user" };
+        socket.connect();
+        socket.emit("join_room", "Please");
+
+    })
+    document.querySelector(".click-button2").addEventListener("click", () => {
+        socket.emit("user_message", { message: "Hi" })
+
+    })
+
+    socket.on("show_doctor_message", (data) => {
+        console.log(data)
+    })
+    socket.on("doctor joined the room", (data) => {
+        console.log(data)
+    })
+
+
+</script>

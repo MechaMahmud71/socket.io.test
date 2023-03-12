@@ -1,0 +1,39 @@
+<button class="click-button" style="background-color: red;height: 20px;width: 100px; color:white;">
+    Join
+</button>
+<button class="click-button2" style="background-color: red;height: 20px;width: 100px; color:white;">
+    send Hello
+</button>
+
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+    let socket = io("http://localhost:5000/doctor");
+    let roomId;
+    socket.on("connect", () => {
+        socket.on("user_connected", (data) => {
+            console.log("user connected", data)
+        })
+        socket.on("join_room", (data) => {
+            console.log(data);
+        })
+        socket.on("show_user_message", (data) => {
+            console.log(data)
+        })
+        console.log(socket)
+    })
+
+    document.querySelector(".click-button").addEventListener("click", () => {
+        socket.emit("doctor_room_joined", { name: "Faruk Doctor" })
+    })
+    document.querySelector(".click-button2").addEventListener("click", () => {
+        socket.emit("doctor_message", { message: "hello" })
+        console.log("hellow")
+    })
+
+
+
+
+</script>
